@@ -3,10 +3,8 @@ import GraphiQL from "graphiql";
 import fetch from "isomorphic-fetch";
 import "graphiql/graphiql.css";
 
-const endpoint = `${window.location.origin}/graphql`
-
 async function graphQLFetcher(graphQLParams) {
-  const response = await fetch(endpoint, {
+  const response = await fetch(process.env.REACT_APP_GRAPH_QL_ENDPOINT, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(graphQLParams),
