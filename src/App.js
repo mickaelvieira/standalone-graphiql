@@ -4,7 +4,7 @@ import fetch from "isomorphic-fetch";
 import "graphiql/graphiql.css";
 
 async function graphQLFetcher(graphQLParams) {
-  const response = await fetch(process.env.REACT_APP_GRAPH_QL_ENDPOINT, {
+  const response = await fetch(`http:${process.env.REACT_APP_GRAPH_QL_ENDPOINT}`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(graphQLParams),
@@ -12,6 +12,9 @@ async function graphQLFetcher(graphQLParams) {
   return await response.json();
 }
 
-const App = () => (<GraphiQL fetcher={graphQLFetcher} />)
+const client = new window.SubscriptionsTransportWs.SubscriptionClient(`ws:${process.env.REACT_APP_GRAPH_QL_ENDPOINT}`, { reconnect: true });
+const fetcher = window.GraphiQLSubscriptionsFetcher.graphQLFetcher(client, graphQLFetcher);
+
+const App = () => (<GraphiQL fetcher={fetcher} />)
 
 export default App;
