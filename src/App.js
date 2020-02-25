@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import GraphiQL from "graphiql";
-import fetch from "isomorphic-fetch";
 import "graphiql/graphiql.css";
+import fetcher from "./fetcher";
 
-async function graphQLFetcher(graphQLParams) {
-  const response = await fetch(`http:${process.env.REACT_APP_GRAPH_QL_ENDPOINT}`, {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(graphQLParams),
-  });
-  return await response.json();
+function checkURL(value) {
+  try {
+    const _ = new URL(value);
+    return true;
+  } catch(e) {
+    return false;
+  }
 }
 
-const client = new window.SubscriptionsTransportWs.SubscriptionClient(`ws:${process.env.REACT_APP_GRAPH_QL_ENDPOINT}`, { reconnect: true });
-const fetcher = window.GraphiQLSubscriptionsFetcher.graphQLFetcher(client, graphQLFetcher);
+export default function App() {
+  const [value, setValue] = useState("")
+  const isValid = checkURL(value);
+  const isEmpty = value === "";
 
-const App = () => (<GraphiQL fetcher={fetcher} />)
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
 
-export default App;
+  return (
+    <>
+      <form className="graphiql-form" onSubmit={handleSubmit}>
+        <label className="graphiql-form__label" htmlFor="url" >URL</label>
+        <input className="graphiql-form__input" type="text" id="url" name="url" value={value} onChange={(event) => setValue(event.target.value)} />
+        <button className="graphiql-form__submit">Change</button>
+      </form>
+      {isEmpty && <div className="graphiql-form__message">Please provide a URL</div>}
+      {!isEmpty && !isValid && <div className="graphiql-form__message">Please provide a valid URL</div>}
+      {isValid && <GraphiQL fetcher={fetcher(value)} />}
+    </>
+  )
+}
