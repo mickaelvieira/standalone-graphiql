@@ -30,6 +30,10 @@ code {
   text-align: center;
 }
 
+.graphiql-form__logo {
+  margin: 24px 0;
+}
+
 .graphiql-form {
   background-color: #f7f7f7;
   display: flex;
@@ -38,6 +42,11 @@ code {
   border-bottom: 1px solid #d0d0d0;
   justify-content: space-between;
   color: #141823;
+}
+
+.graphiql-form__label {
+  flex-grow: 1;
+  display: flex;
 }
 
 .graphiql-form__input {

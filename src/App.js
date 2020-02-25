@@ -1,36 +1,23 @@
 import React, { useState } from "react";
 import GraphiQL from "graphiql";
-import "graphiql/graphiql.css";
-import fetcher from "./fetcher";
+import fetcher from "./helpers/fetcher";
+import Message from "./Message";
+import Form from "./Form";
+import { checkURL } from "./helpers/url";
 
-function checkURL(value) {
-  try {
-    const _ = new URL(value);
-    return true;
-  } catch(e) {
-    return false;
-  }
-}
+import "graphiql/graphiql.css";
 
 export default function App() {
-  const [value, setValue] = useState("")
-  const isValid = checkURL(value);
-  const isEmpty = value === "";
-
-  function handleSubmit(event) {
-    event.preventDefault();
-  }
+  const [url, setURL] = useState("")
+  const isValid = checkURL(url);
+  const isEmpty = url === "";
 
   return (
     <>
-      <form className="graphiql-form" onSubmit={handleSubmit}>
-        <label className="graphiql-form__label" htmlFor="url" >URL</label>
-        <input className="graphiql-form__input" type="text" id="url" name="url" value={value} onChange={(event) => setValue(event.target.value)} />
-        <button className="graphiql-form__submit">Change</button>
-      </form>
-      {isEmpty && <div className="graphiql-form__message">Please provide a URL</div>}
-      {!isEmpty && !isValid && <div className="graphiql-form__message">Please provide a valid URL</div>}
-      {isValid && <GraphiQL fetcher={fetcher(value)} />}
+      <Form onChange={setURL} />
+      {isEmpty && <Message message="Enter the URL of the server you want to query" />}
+      {!isEmpty && !isValid && <Message message={`The URL '${url}' does not seem to be valid`} / >}
+      {isValid && <GraphiQL fetcher={fetcher(url)} />}
     </>
   )
 }
