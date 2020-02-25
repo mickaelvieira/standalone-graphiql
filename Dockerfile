@@ -22,8 +22,6 @@ WORKDIR /srv
 
 COPY --from=build /srv /srv
 
-ENV PORT=8080
-
 EXPOSE 8080
 
-CMD ["node_modules/.bin/react-scripts", "start"]
+CMD ["node_modules/.bin/serve", "-s", "build", "-l", "8080"]
