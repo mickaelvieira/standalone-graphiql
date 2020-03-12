@@ -1,3 +1,7 @@
+A standalone [GraphiQL](https://github.com/graphql/graphiql) application
+
+Demo: https://graphql.mickaelvieira.com/
+
 ## Available Scripts
 
 The project was built with [create react app](https://github.com/facebook/create-react-app), the following scripts  therefore are available:
