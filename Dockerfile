@@ -1,5 +1,5 @@
 # build
-FROM node:13.13.0-alpine3.10 as build
+FROM node:13.14.0-alpine3.10 as build
 
 ENV NODE_ENV production
 
