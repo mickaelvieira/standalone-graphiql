@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "graphiql": "^0.17",
+    "graphiql": "^1.0",
     "graphiql-subscriptions-fetcher": "^0.0",
     "graphql": "^15.0",
     "isomorphic-fetch": "^2.2",
